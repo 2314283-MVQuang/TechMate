@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.HomeFragment"
+        android:label="Home">
+
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/detailFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.DetailFragment"
+        android:label="Detail" />
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.CartFragment"
+        android:label="Cart" />
+
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.CheckoutFragment"
+        android:label="Checkout" />
+
+    <fragment
+        android:id="@+id/compareFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.CompareFragment"
+        android:label="Compare" />
+
+</navigation>

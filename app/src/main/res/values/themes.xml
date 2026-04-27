@@ -1,0 +1,36 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.TechMate" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- Primary -->
+        <item name="colorPrimary">#3B82F6</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- QUAN TRỌNG -->
+        <item name="colorPrimaryContainer">#3B82F6</item>
+        <item name="colorOnPrimaryContainer">#FFFFFF</item>
+
+        <!-- Secondary -->
+        <item name="colorSecondary">#10B981</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- Background -->
+        <item name="android:colorBackground">#F8FAFC</item>
+        <item name="colorSurface">#FFFFFF</item>
+	
+	<!-- Navigation -->
+	<item name="colorSurface">#FFFFFF</item>
+	<item name="colorOnSurface">#1F2937</item>
+
+	<!-- QUAN TRỌNG -->
+	<item name="colorSecondaryContainer">#E0F2FE</item>
+	<item name="colorOnSecondaryContainer">#1E40AF</item>
+
+	<!-- Ripple -->
+	<item name="colorControlHighlight">#3B82F6</item>
+	
+	<item name="colorAccent">#3B82F6</item>
+
+    </style>
+
+</resources>

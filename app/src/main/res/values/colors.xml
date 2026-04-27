@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Primary -->
+    <color name="primary">#3B82F6</color>
+    <color name="primary_dark">#1E40AF</color>
+
+    <!-- Background -->
+    <color name="bg">#F5F7FA</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Thêm màu card để sửa lỗi linking -->
+    <color name="card">#FFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1F2937</color>
+    <color name="text_secondary">#6B7280</color>
+
+    <!-- Accent -->
+    <color name="green">#10B981</color>
+    <color name="red">#EF4444</color>
+
+    <!-- Chip -->
+    <color name="chip_bg">#E5E7EB</color>
+    
+    <!-- Divider -->
+    <color name="divider">#E2E8F0</color>
+
+
+</resources>
