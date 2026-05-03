@@ -31,35 +31,32 @@ public class CompareAdapter extends RecyclerView.Adapter<CompareAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder h, int position) {
         Spec s = list.get(position);
 
-        h.txtLabel.setText(s.label);
-        h.txtValue1.setText(s.value1);
-        h.txtValue2.setText(s.value2);
+        h.txtLabel.setText(s.label != null ? s.label : "");
+        h.txtValue1.setText(s.value1 != null ? s.value1 : "N/A");
+        h.txtValue2.setText(s.value2 != null ? s.value2 : "N/A");
 
-        // 🔥 highlight nếu khác nhau
-        if (!String.valueOf(s.value1).equals(String.valueOf(s.value2))) {
-            h.rowRoot.setBackgroundColor(0xFFE0F2FE);
+        // Highlight khác biệt an toàn
+        LinearLayout row = h.itemView.findViewById(R.id.rowRoot);
+        if (s.value1 != null && !s.value1.equals(s.value2)) {
+            row.setBackgroundColor(0xFFE0F2FE); // Xanh nhạt khi khác nhau
         } else {
-            h.rowRoot.setBackgroundColor(0x00000000);
+            row.setBackgroundColor(0x00000000); // Trong suốt khi giống nhau
         }
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list != null ? list.size() : 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView txtLabel, txtValue1, txtValue2;
-        LinearLayout rowRoot;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            txtLabel = itemView.findViewById(R.id.txtLabel);
-            txtValue1 = itemView.findViewById(R.id.txtValue1);
-            txtValue2 = itemView.findViewById(R.id.txtValue2);
-            rowRoot = itemView.findViewById(R.id.rowRoot);
+        public ViewHolder(@NonNull View v) {
+            super(v);
+            txtLabel = v.findViewById(R.id.txtLabel);
+            txtValue1 = v.findViewById(R.id.txtValue1);
+            txtValue2 = v.findViewById(R.id.txtValue2);
         }
     }
 }

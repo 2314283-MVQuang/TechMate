@@ -7,13 +7,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="vn.edu.dlu.ctk47.techmate.HomeFragment"
-        android:label="Home">
-
-        <action
-            android:id="@+id/action_home_to_detail"
-            app:destination="@id/detailFragment" />
-
-    </fragment>
+        android:label="Home"/>
 
     <fragment
         android:id="@+id/detailFragment"
@@ -26,13 +20,14 @@
         android:label="Cart" />
 
     <fragment
-        android:id="@+id/checkoutFragment"
-        android:name="vn.edu.dlu.ctk47.techmate.CheckoutFragment"
-        android:label="Checkout" />
-
-    <fragment
         android:id="@+id/compareFragment"
         android:name="vn.edu.dlu.ctk47.techmate.CompareFragment"
         android:label="Compare" />
+
+    <!-- Fragment giữ chỗ cho Profile -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.HomeFragment"
+        android:label="Profile" />
 
 </navigation>
