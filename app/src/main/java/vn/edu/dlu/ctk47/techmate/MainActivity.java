@@ -3,10 +3,9 @@ package vn.edu.dlu.ctk47.techmate;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -14,46 +13,43 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // 🔥 Splash init
+        SplashScreen splash = SplashScreen.installSplashScreen(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
+        // 🔥 Giữ splash 1.5s (chuẩn, không block UI)
+        final long startTime = System.currentTimeMillis();
+        splash.setKeepOnScreenCondition(() ->
+                System.currentTimeMillis() - startTime < 2000
+        );
 
-        if (navHostFragment != null) {
-            NavController navController = navHostFragment.getNavController();
-            BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        // 🔥 Navigation setup
+        NavHostFragment navHostFragment = (NavHostFragment)
+                getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
 
-            // 🔥 KHAI BÁO TOP-LEVEL (QUAN TRỌNG)
-            AppBarConfiguration appBarConfiguration =
-                    new AppBarConfiguration.Builder(
-                            R.id.homeFragment,
-                            R.id.cartFragment,
-                            R.id.profileFragment
-                    ).build();
+        if (navHostFragment == null) return;
 
-            // 🔥 CHỈ GỌI 1 LẦN
-            bottomNav.setOnItemSelectedListener(item -> {
+        NavController navController = navHostFragment.getNavController();
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
-                int id = item.getItemId();
+        bottomNav.setOnItemSelectedListener(item -> {
 
-                if (id == R.id.homeFragment) {
-                    navController.popBackStack(R.id.homeFragment, false);
-                    return true;
-                }
+            int id = item.getItemId();
+            int current = navController.getCurrentDestination().getId();
 
-                if (id == R.id.cartFragment) {
-                    navController.navigate(R.id.cartFragment);
-                    return true;
-                }
+            // 🔥 Tránh navigate trùng → crash
+            if (current == id) return true;
 
-                if (id == R.id.profileFragment) {
-                    navController.navigate(R.id.profileFragment);
-                    return true;
-                }
+            try {
+                navController.navigate(id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-                return false;
-            });
-        }
+            return true;
+        });
     }
 }

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Primary -->
-    <color name="primary">#3B82F6</color>
+    <color name="primary">#28C8BE</color>
     <color name="primary_dark">#1E40AF</color>
 
     <!-- Background -->
@@ -24,6 +24,8 @@
     
     <!-- Divider -->
     <color name="divider">#E2E8F0</color>
+
+    <color name="splash_bg">#28C8BE</color>
 
 
 </resources>

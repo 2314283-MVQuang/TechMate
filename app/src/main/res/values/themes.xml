@@ -1,13 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.TechMate" parent="Theme.Material3.DayNight.NoActionBar">
-
-        <!-- Primary -->
-        <item name="colorPrimary">#3B82F6</item>
+    <!-- MAIN THEME -->
+    <style name="Theme.TechMate" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 🔥 ĐỒNG BỘ MÀU -->
+        <item name="colorPrimary">#28C8BE</item>
         <item name="colorOnPrimary">#FFFFFF</item>
 
-        <!-- QUAN TRỌNG -->
-        <item name="colorPrimaryContainer">#3B82F6</item>
+        <item name="colorPrimaryContainer">#28C8BE</item>
         <item name="colorOnPrimaryContainer">#FFFFFF</item>
 
         <!-- Secondary -->
@@ -17,19 +16,36 @@
         <!-- Background -->
         <item name="android:colorBackground">#F8FAFC</item>
         <item name="colorSurface">#FFFFFF</item>
-	
-	<!-- Navigation -->
-	<item name="colorSurface">#FFFFFF</item>
-	<item name="colorOnSurface">#1F2937</item>
 
-	<!-- QUAN TRỌNG -->
-	<item name="colorSecondaryContainer">#E0F2FE</item>
-	<item name="colorOnSecondaryContainer">#1E40AF</item>
+        <!-- Text -->
+        <item name="colorOnSurface">#1F2937</item>
 
-	<!-- Ripple -->
-	<item name="colorControlHighlight">#3B82F6</item>
-	
-	<item name="colorAccent">#3B82F6</item>
+        <!-- Container -->
+        <item name="colorSecondaryContainer">#E0F2FE</item>
+        <item name="colorOnSecondaryContainer">#1E40AF</item>
+
+        <!-- Ripple -->
+        <item name="colorControlHighlight">#28C8BE</item>
+
+        <item name="colorAccent">#28C8BE</item>
+
+    </style>
+
+
+    <!-- 🔥 SPLASH THEME -->
+    <style name="Theme.TechMate.Splash" parent="Theme.SplashScreen">
+
+        <!-- 🔥 MÀU CHUẨN -->
+        <item name="windowSplashScreenBackground">#28C8BE</item>
+
+        <!-- logo -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_tm</item>
+
+        <!-- chuyển theme -->
+        <item name="postSplashScreenTheme">@style/Theme.TechMate</item>
+
+        <!-- delay -->
+        <item name="windowSplashScreenAnimationDuration">1500</item>
 
     </style>
 

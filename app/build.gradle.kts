@@ -4,14 +4,15 @@ plugins {
 
 android {
     namespace = "vn.edu.dlu.ctk47.techmate"
-    compileSdk {
-        version = release(36)
-    }
+
+    // 🔥 FIX LỖI AAR
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "vn.edu.dlu.ctk47.techmate"
         minSdk = 24
         targetSdk = 36
+
         versionCode = 1
         versionName = "1.0"
 
@@ -27,6 +28,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -34,12 +36,21 @@ android {
 }
 
 dependencies {
+
+    // Core UI
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    // Navigation
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+
+    // 🔥 SplashScreen (QUAN TRỌNG)
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
