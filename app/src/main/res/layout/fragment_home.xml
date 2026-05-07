@@ -1,44 +1,82 @@
-<FrameLayout
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg">
 
-    <!-- MAIN CONTENT -->
-    <LinearLayout
-        android:background="@color/bg"
-        android:orientation="vertical"
-        android:padding="16dp"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <!-- SEARCH -->
-        <EditText
-            android:id="@+id/edtSearch"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Search products..."
-            android:padding="12dp"
-            android:background="@drawable/bg_search"
-            android:layout_marginBottom="12dp" />
-
-        <!-- CATEGORY -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCategories"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- PRODUCT -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvProducts"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_search"
+                android:hint="Search products..."
+                android:padding="12dp"
+                android:layout_marginBottom="16dp" />
 
-    <!-- FLOAT COMPARE BUTTON -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/primary"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🔥 SIÊU SALE CUỐI TUẦN"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giảm giá lên đến 50%"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBrands"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
     <ImageView
         android:id="@+id/btnCompareFloat"
         android:layout_width="56dp"
@@ -46,9 +84,9 @@
         android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
         android:background="@drawable/bg_circle"
+        android:elevation="10dp"
         android:padding="14dp"
         android:src="@drawable/ic_compare"
-        app:tint="@color/primary"
-        android:elevation="10dp"/>
+        app:tint="@color/primary" />
 
 </FrameLayout>
