@@ -1,17 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.services)
 }
 
 android {
     namespace = "vn.edu.dlu.ctk47.techmate"
 
-    // 🔥 FIX LỖI AAR
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "vn.edu.dlu.ctk47.techmate"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
 
         versionCode = 1
         versionName = "1.0"
@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
     // Core UI
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -47,11 +46,15 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
 
-    // 🔥 SplashScreen (QUAN TRỌNG)
+    // SplashScreen
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
+    implementation("com.google.firebase:firebase-analytics")
 }
