@@ -18,15 +18,17 @@
     <!-- Accent -->
     <color name="green">#10B981</color>
     <color name="red">#EF4444</color>
+    <color name="header_red">#D32F2F</color>
+    <color name="login_btn_bg">#40FFFFFF</color>
 
     <!-- Chip -->
     <color name="chip_bg">#E5E7EB</color>
-    
+
     <!-- Divider -->
     <color name="divider">#E2E8F0</color>
 
     <color name="splash_bg">#28C8BE</color>
-    
+
     <!-- Fixed Colors -->
     <color name="black">#000000</color>
 

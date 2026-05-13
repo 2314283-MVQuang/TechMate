@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "15546027809",
+    "project_id": "techshop-133de",
+    "storage_bucket": "techshop-133de.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15546027809:android:4007be4ef68e01d4fbf860",
+        "android_client_info": {
+          "package_name": "vn.edu.dlu.ctk47.techmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7ynjCWFscawcsCvb3EDBoisUf87zCakE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
