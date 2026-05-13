@@ -1,14 +1,19 @@
 package vn.edu.dlu.ctk47.techmate;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
+import vn.edu.dlu.ctk47.techmate.model.Product;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
@@ -32,37 +37,47 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product p = list.get(position);
 
-        holder.txtName.setText(p.name);
-        holder.txtPrice.setText("$" + p.price);
+        if (p != null) {
+            // Log để kiểm tra dữ liệu
+            Log.d("ProductAdapter", "Binding product: " + p.getName() + " | Price: " + p.getPrice());
+            
+            holder.txtName.setText(p.getName() != null ? p.getName() : "Empty Name");
+            holder.txtPrice.setText("$" + p.getPrice());
 
-        // 🔥 CLICK (QUAN TRỌNG NHẤT)
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onClick(p);
+            if (p.getImages() != null && !p.getImages().isEmpty()) {
+                Glide.with(holder.itemView.getContext())
+                        .load(p.getImages().get(0))
+                        .placeholder(R.drawable.logo)
+                        .error(R.drawable.logo)
+                        .into(holder.imgProduct);
             }
-        });
 
-        // ❌ KHÔNG DÙNG LONG CLICK nữa
-        holder.itemView.setOnLongClickListener(null);
+            holder.itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onClick(p);
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list != null ? list.size() : 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName, txtPrice;
+        ImageView imgProduct;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
+            imgProduct = itemView.findViewById(R.id.imgProduct);
         }
     }
 
     public interface OnItemClick {
         void onClick(Product product);
-        void onLongClick(Product product); // vẫn giữ để tránh lỗi compile
     }
 }

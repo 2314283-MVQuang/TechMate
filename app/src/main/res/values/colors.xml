@@ -8,7 +8,7 @@
     <color name="bg">#F5F7FA</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- Thêm màu card để sửa lỗi linking -->
+    <!-- Card Background -->
     <color name="card">#FFFFFF</color>
 
     <!-- Text -->
@@ -26,6 +26,9 @@
     <color name="divider">#E2E8F0</color>
 
     <color name="splash_bg">#28C8BE</color>
+    
+    <!-- Fixed Colors -->
+    <color name="black">#000000</color>
 
 
 </resources>

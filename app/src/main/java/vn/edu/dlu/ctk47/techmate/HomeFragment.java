@@ -16,12 +16,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import kotlin.Unit;
+import vn.edu.dlu.ctk47.techmate.model.Category;
+import vn.edu.dlu.ctk47.techmate.model.Product;
+import vn.edu.dlu.ctk47.techmate.firebase.ProductRepository;
 
 public class HomeFragment extends Fragment {
 
-    ImageView btnCompareFloat;
+    private ImageView btnCompareFloat;
+    private RecyclerView rvCat, rvProd;
+    private List<Product> productList = new ArrayList<>();
+    private List<Category> categoryList = new ArrayList<>();
+    private ProductAdapter productAdapter;
+    private CategoryAdapter categoryAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,85 +43,84 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         btnCompareFloat = view.findViewById(R.id.btnCompareFloat);
+        rvCat = view.findViewById(R.id.rvCategories);
+        rvProd = view.findViewById(R.id.rvProducts);
 
-        // 👉 CLICK FLOAT BUTTON
+        setupRecyclerViews(view);
+        loadData();
+
         btnCompareFloat.setOnClickListener(v -> {
-
             if (CompareManager.get().size() < 2) {
-                Toast.makeText(getContext(), "Select 2 products first", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Chọn ít nhất 2 sản phẩm", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             Navigation.findNavController(view).navigate(R.id.compareFragment);
         });
-
-        // CATEGORY
-        RecyclerView rvCat = view.findViewById(R.id.rvCategories);
-        rvCat.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvCat.setAdapter(new CategoryAdapter(Arrays.asList("All", "Phones", "Laptops", "Audio")));
-
-        // PRODUCT
-        RecyclerView rvProd = view.findViewById(R.id.rvProducts);
-        rvProd.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
-        List<Product> products = new ArrayList<>();
-
-        Product p1 = new Product("iPhone 15 Pro", 999);
-        p1.specs.put("CPU", "A17 Pro");
-        p1.specs.put("RAM", "8GB");
-
-        Product p2 = new Product("S24 Ultra", 1199);
-        p2.specs.put("CPU", "Snapdragon 8 Gen 3");
-        p2.specs.put("RAM", "12GB");
-
-        products.add(p1);
-        products.add(p2);
-        products.add(new Product("MacBook Air", 1299));
-        products.add(new Product("AirPods Pro", 249));
-
-        // 🔥 ADAPTER (FLOW MỚI)
-        ProductAdapter adapter = new ProductAdapter(products, new ProductAdapter.OnItemClick() {
-
-            @Override
-            public void onClick(Product product) {
-
-                // 🔥 NẾU ĐÃ CÓ 1 SP → ADD + COMPARE
-                if (CompareManager.hasOne()) {
-
-                    CompareManager.add(product);
-
-                    Navigation.findNavController(view)
-                            .navigate(R.id.compareFragment);
-
-                    return;
-                }
-
-                // 👉 CHƯA CHỌN → VÀO DETAIL
-                Bundle bundle = new Bundle();
-                bundle.putString("name", product.name);
-                bundle.putDouble("price", product.price);
-
-                Navigation.findNavController(view)
-                        .navigate(R.id.detailFragment, bundle);
-            }
-
-            @Override
-            public void onLongClick(Product product) {
-                // ❌ KHÔNG DÙNG NỮA
-            }
-        });
-
-        rvProd.setAdapter(adapter);
 
         updateCompareUI();
     }
 
+    private void setupRecyclerViews(View view) {
+        rvCat.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        categoryAdapter = new CategoryAdapter(categoryList, category -> {
+            if (category.getId() != null) {
+                ProductRepository.INSTANCE.getProductsByCategory(category.getId(), products -> {
+                    requireActivity().runOnUiThread(() -> {
+                        productList.clear();
+                        productList.addAll(products);
+                        productAdapter.notifyDataSetChanged();
+                    });
+                    return Unit.INSTANCE;
+                });
+            }
+        });
+        rvCat.setAdapter(categoryAdapter);
+
+        rvProd.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        productAdapter = new ProductAdapter(productList, product -> {
+            if (CompareManager.hasOne()) {
+                CompareManager.add(product);
+                Navigation.findNavController(view).navigate(R.id.compareFragment);
+                return;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putString("id", product.getId());
+            Navigation.findNavController(view).navigate(R.id.detailFragment, bundle);
+        });
+        rvProd.setAdapter(productAdapter);
+    }
+
+    private void loadData() {
+        ProductRepository.INSTANCE.getCategories(categories -> {
+            if (isAdded() && getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    categoryList.clear();
+                    categoryList.addAll(categories);
+                    categoryAdapter.notifyDataSetChanged();
+                });
+            }
+            return Unit.INSTANCE;
+        });
+
+        ProductRepository.INSTANCE.getProducts(products -> {
+            if (isAdded() && getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    productList.clear();
+                    productList.addAll(products);
+                    productAdapter.notifyDataSetChanged();
+                });
+            }
+            return Unit.INSTANCE;
+        });
+    }
+
     private void updateCompareUI() {
         int size = CompareManager.get().size();
-
-        // 👉 có 1 sản phẩm → nút sáng lên
-        btnCompareFloat.setAlpha(size > 0 ? 1f : 0.4f);
+        if (btnCompareFloat != null) {
+            btnCompareFloat.setAlpha(size > 0 ? 1f : 0.4f);
+        }
     }
+
     @Override
     public void onResume() {
         super.onResume();
