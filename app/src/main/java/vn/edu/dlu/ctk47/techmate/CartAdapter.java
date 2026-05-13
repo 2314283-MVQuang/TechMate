@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat; // <-- Đã thêm thư viện
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
@@ -17,7 +18,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<CartItem> list;
     private OnCartChange listener;
 
-    // Constructor
     public CartAdapter(List<CartItem> list, OnCartChange listener) {
         this.list = list;
         this.listener = listener;
@@ -36,10 +36,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         CartItem item = list.get(position);
 
         h.txtName.setText(item.product.name);
-        h.txtPrice.setText("$" + item.product.price);
+
+        // =====================================
+        // SỬA LỖI $2.899E7 THÀNH 28.990.000 đ
+        // =====================================
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        String formattedPrice = formatter.format(item.product.price).replace(",", ".") + " đ";
+        h.txtPrice.setText(formattedPrice);
+
         h.txtQty.setText(String.valueOf(item.quantity));
 
-        // ➕
+        // ➕ Tăng số lượng
         h.btnPlus.setOnClickListener(v -> {
             int pos = h.getBindingAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
@@ -49,7 +56,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         });
 
-        // ➖
+        // ➖ Giảm số lượng
         h.btnMinus.setOnClickListener(v -> {
             int pos = h.getBindingAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
@@ -61,12 +68,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         });
 
-        // ❌
+        // ❌ Xóa khỏi giỏ
         h.btnDelete.setOnClickListener(v -> {
             int pos = h.getBindingAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
                 CartManager.remove(pos);
                 notifyItemRemoved(pos);
+                notifyItemRangeChanged(pos, list.size()); // Cập nhật lại vị trí
                 notifyTotal();
             }
         });
@@ -77,9 +85,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return list.size();
     }
 
-    // ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView txtName, txtPrice, txtQty;
         ImageView img, btnDelete;
         TextView btnPlus, btnMinus;
@@ -96,7 +102,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         }
     }
 
-    // Callback để update total
     public interface OnCartChange {
         void onChange();
     }

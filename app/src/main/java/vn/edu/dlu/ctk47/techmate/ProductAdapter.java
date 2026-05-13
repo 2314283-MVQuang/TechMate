@@ -3,11 +3,13 @@ package vn.edu.dlu.ctk47.techmate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
@@ -33,16 +35,27 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         Product p = list.get(position);
 
         holder.txtName.setText(p.name);
-        holder.txtPrice.setText("$" + p.price);
 
-        // 🔥 CLICK (QUAN TRỌNG NHẤT)
+        // ==========================================
+        // 1. SỬA LỖI GIÁ TIỀN (Chuyển số khoa học thành tiền Việt)
+        // ==========================================
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        String formattedPrice = formatter.format(p.price).replace(",", ".") + " đ";
+        holder.txtPrice.setText(formattedPrice);
+
+        // ==========================================
+        // 2. GÁN HÌNH ẢNH
+        // ==========================================
+        holder.imgProduct.setImageResource(p.imageResId);
+
+        // Xử lý Click
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onClick(p);
             }
         });
 
-        // ❌ KHÔNG DÙNG LONG CLICK nữa
+        // Hủy Long Click
         holder.itemView.setOnLongClickListener(null);
     }
 
@@ -53,16 +66,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName, txtPrice;
+        ImageView imgProduct;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
+
+            // ÁNH XẠ IMAGEVIEW TỪ XML
+            imgProduct = itemView.findViewById(R.id.imgProduct);
         }
     }
 
     public interface OnItemClick {
         void onClick(Product product);
-        void onLongClick(Product product); // vẫn giữ để tránh lỗi compile
+        void onLongClick(Product product);
     }
 }

@@ -118,6 +118,7 @@ public class HomeFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("name", product.name);
                 bundle.putDouble("price", product.price);
+                bundle.putInt("image", product.imageResId);
                 Navigation.findNavController(view).navigate(R.id.detailFragment, bundle);
             }
 
@@ -159,26 +160,29 @@ public class HomeFragment extends Fragment {
         brandData.put("Accessories", Arrays.asList("All", "Cables", "Chargers", "Cases"));
         brandData.put("Gaming", Arrays.asList("All", "PlayStation", "Xbox", "Nintendo"));
 
-        // Dữ liệu Sản phẩm giả lập (Mock data)
-        Product p1 = new Product("iPhone 15 Pro", 999);
+        // ==============================================================
+        // ĐÃ SỬA: Thay đổi Constructor thành 3 tham số (Tên, Giá, Hình ảnh)
+        // Cập nhật giá tiền thành tiền Việt Nam (đồng)
+        // ==============================================================
+        Product p1 = new Product("iPhone 15 Pro", 28990000, R.drawable.img_iphone_15_pro);
         p1.specs.put("Category", "Phones"); p1.specs.put("Brand", "Apple");
 
-        Product p2 = new Product("S24 Ultra", 1199);
+        Product p2 = new Product("S24 Ultra", 31990000, R.drawable.img_s24_ultra);
         p2.specs.put("Category", "Phones"); p2.specs.put("Brand", "Samsung");
 
-        Product p3 = new Product("MacBook Air M3", 1299);
+        Product p3 = new Product("MacBook Air M3", 27990000, R.drawable.img_macbook_air_m3);
         p3.specs.put("Category", "Laptops"); p3.specs.put("Brand", "MacBook");
 
-        Product p4 = new Product("AirPods Pro 2", 249);
+        Product p4 = new Product("AirPods Pro 2", 5990000, R.drawable.img_airpods_pro_2);
         p4.specs.put("Category", "Audio"); p4.specs.put("Brand", "AirPods");
 
-        Product p5 = new Product("Xiaomi 14", 899);
+        Product p5 = new Product("Xiaomi 14", 22990000, R.drawable.img_xiaomi_14);
         p5.specs.put("Category", "Phones"); p5.specs.put("Brand", "Xiaomi");
 
-        Product p6 = new Product("iPad Pro M4", 1099);
+        Product p6 = new Product("iPad Pro M4", 28990000, R.drawable.img_ipad_pro_m4);
         p6.specs.put("Category", "Tablets"); p6.specs.put("Brand", "iPad");
 
-        Product p7 = new Product("Apple Watch S9", 399);
+        Product p7 = new Product("Apple Watch Series 9", 10490000, R.drawable.img_apple_watch);
         p7.specs.put("Category", "Watches"); p7.specs.put("Brand", "Apple Watch");
 
         allProducts.addAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7));
