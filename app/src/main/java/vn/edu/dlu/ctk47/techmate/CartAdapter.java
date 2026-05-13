@@ -3,20 +3,19 @@ package vn.edu.dlu.ctk47.techmate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DecimalFormat; // <-- Đã thêm thư viện
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
-    private List<CartItem> list;
-    private OnCartChange listener;
+    private final List<CartItem> list;
+    private final OnCartChange listener;
 
     public CartAdapter(List<CartItem> list, OnCartChange listener) {
         this.list = list;
@@ -48,7 +47,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         // ➕ Tăng số lượng
         h.btnPlus.setOnClickListener(v -> {
-            int pos = h.getBindingAdapterPosition();
+            int pos = h.getAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
                 list.get(pos).quantity++;
                 notifyItemChanged(pos);
@@ -58,7 +57,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         // ➖ Giảm số lượng
         h.btnMinus.setOnClickListener(v -> {
-            int pos = h.getBindingAdapterPosition();
+            int pos = h.getAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
                 if (list.get(pos).quantity > 1) {
                     list.get(pos).quantity--;
@@ -70,11 +69,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         // ❌ Xóa khỏi giỏ
         h.btnDelete.setOnClickListener(v -> {
-            int pos = h.getBindingAdapterPosition();
+            int pos = h.getAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
                 CartManager.remove(pos);
                 notifyItemRemoved(pos);
-                notifyItemRangeChanged(pos, list.size()); // Cập nhật lại vị trí
+                notifyItemRangeChanged(pos, list.size() - pos); // Cập nhật lại vị trí
                 notifyTotal();
             }
         });
@@ -85,7 +84,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return list.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName, txtPrice, txtQty;
         ImageView img, btnDelete;
         TextView btnPlus, btnMinus;
