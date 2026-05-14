@@ -9,7 +9,7 @@
         android:id="@+id/headerCart"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#D70018">
+        android:background="@color/primary">
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="TIẾN HÀNH ĐẶT HÀNG"
-            android:backgroundTint="#D70018"
+            android:backgroundTint="@color/primary"
             android:textColor="#FFFFFF"
             android:textStyle="bold"/>
     </LinearLayout>
