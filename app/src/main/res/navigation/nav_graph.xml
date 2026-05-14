@@ -24,14 +24,40 @@
         android:name="vn.edu.dlu.ctk47.techmate.CompareFragment"
         android:label="Compare" />
 
-    <!-- Fragment giữ chỗ cho Profile -->
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="vn.edu.dlu.ctk47.techmate.HomeFragment"
-        android:label="Profile" />
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="vn.edu.dlu.ctk47.techmate.CheckoutFragment"
         android:label="Checkout" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.ProfileFragment"
+        android:label="Profile">
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.LoginFragment"
+        android:label="Login">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.RegisterFragment"
+        android:label="Register" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.SettingsFragment"
+        android:label="Settings" />
 
 </navigation>

@@ -10,28 +10,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import vn.edu.dlu.ctk47.techmate.model.Category;
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private List<String> list;
-    private OnItemClickListener listener;
+    private List<Category> list;
+    private final OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(String category);
+        void onItemClick(Category category);
     }
 
-    public CategoryAdapter(List<String> list, OnItemClickListener listener) {
+    public CategoryAdapter(List<Category> list, OnItemClickListener listener) {
         this.list = list;
         this.listener = listener;
-    }
-
-    public void updateData(List<String> newList) {
-        this.list = newList;
-        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // XML item_category.xml is a TextView as root
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_category, parent, false);
         return new ViewHolder(view);
@@ -39,8 +37,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String category = list.get(position);
-        holder.txt.setText(category);
+        Category category = list.get(position);
+        holder.txt.setText(category.getName());
+
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(category);
@@ -58,7 +57,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txt = itemView.findViewById(R.id.txtCategory);
+            txt = (TextView) itemView; // root is TextView
         }
     }
 }

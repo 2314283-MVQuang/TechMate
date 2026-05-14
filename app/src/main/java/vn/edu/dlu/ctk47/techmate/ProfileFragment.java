@@ -1,64 +1,108 @@
 package vn.edu.dlu.ctk47.techmate;
 
-
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseUser;
+
+import vn.edu.dlu.ctk47.techmate.firebase.AuthRepository;
 
 public class ProfileFragment extends Fragment {
 
-    public ProfileFragment() {
-        super(R.layout.fragment_profile);
+    private LinearLayout layoutProfileHeader;
+    private ImageView imgProfileAvatar;
+    private TextView txtProfileName, txtProfileEmail, btnEditProfile;
+    private TextView btnMyOrders, btnAddressBook, btnHelpCenter, btnPrivacyPolicy;
+    private View btnLanguage, btnAbout;
+    private Button btnLogout;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SwitchCompat switchDarkMode = view.findViewById(R.id.switchDarkMode);
-        SwitchCompat switchNotif = view.findViewById(R.id.switchNotif);
-        Button btnLogout = view.findViewById(R.id.btnLogout);
+        // 1. Ánh xạ View theo fragment_profile.xml
+        layoutProfileHeader = view.findViewById(R.id.layoutProfileHeader);
+        imgProfileAvatar = view.findViewById(R.id.imgProfileAvatar);
+        txtProfileName = view.findViewById(R.id.txtProfileName);
+        txtProfileEmail = view.findViewById(R.id.txtProfileEmail);
+        btnEditProfile = view.findViewById(R.id.btnEditProfile);
+        
+        btnMyOrders = view.findViewById(R.id.btnMyOrders);
+        btnAddressBook = view.findViewById(R.id.btnAddressBook);
+        btnHelpCenter = view.findViewById(R.id.btnHelpCenter);
+        btnPrivacyPolicy = view.findViewById(R.id.btnPrivacyPolicy);
+        btnLanguage = view.findViewById(R.id.btnLanguage);
+        btnAbout = view.findViewById(R.id.btnAbout);
+        btnLogout = view.findViewById(R.id.btnLogout);
 
-        // 1. Xử lý Chế độ tối (Dark Mode)
-        switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        // 2. Xử lý sự kiện
+        layoutProfileHeader.setOnClickListener(v -> {
+            if (AuthRepository.INSTANCE.getCurrentUser() == null) {
+                // Chuyển sang màn hình Login nếu chưa đăng nhập
+                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_loginFragment); 
             }
         });
 
-        // 2. Xử lý Nút Thông báo
-        switchNotif.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String msg = isChecked ? "Đã bật thông báo" : "Đã tắt thông báo";
-            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-        });
-
-        // 3. Xử lý Nút Đăng Xuất
         btnLogout.setOnClickListener(v -> {
-            // Xóa trạng thái đăng nhập
-            SharedPreferences prefs = requireActivity().getSharedPreferences("TechMatePrefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("IS_LOGGED_IN", false);
-            editor.apply();
-
-            Toast.makeText(getContext(), "Đã đăng xuất thành công!", Toast.LENGTH_SHORT).show();
-
-            // Chuyển hướng người dùng về lại Trang Chủ
-            NavController nav = Navigation.findNavController(v);
-            nav.popBackStack(R.id.homeFragment, false);
+            AuthRepository.INSTANCE.logout();
+            Toast.makeText(getContext(), "Đã đăng xuất", Toast.LENGTH_SHORT).show();
+            updateUI();
         });
+
+        btnEditProfile.setOnClickListener(v -> {
+             if (AuthRepository.INSTANCE.getCurrentUser() != null) {
+                 Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_settingsFragment);
+             }
+        });
+
+        updateUI();
+    }
+
+    private void updateUI() {
+        FirebaseUser currentUser = AuthRepository.INSTANCE.getCurrentUser();
+
+        if (currentUser != null) {
+            btnLogout.setVisibility(View.VISIBLE);
+            AuthRepository.INSTANCE.getUserProfile(currentUser.getUid(), user -> {
+                if (user != null && isAdded()) {
+                    txtProfileName.setText(user.getName() != null ? user.getName().toUpperCase() : "USER");
+                    txtProfileEmail.setText(user.getEmail());
+
+                    if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+                        Glide.with(this)
+                                .load(user.getAvatar())
+                                .placeholder(R.drawable.ic_launcher_background)
+                                .circleCrop()
+                                .into(imgProfileAvatar);
+                    }
+                }
+                return null;
+            });
+        } else {
+            // Trạng thái chưa đăng nhập
+            txtProfileName.setText("CHƯA ĐĂNG NHẬP");
+            txtProfileEmail.setText("Nhấn để đăng nhập ngay");
+            imgProfileAvatar.setImageResource(R.drawable.ic_launcher_background);
+            btnLogout.setVisibility(View.GONE);
+        }
     }
 }

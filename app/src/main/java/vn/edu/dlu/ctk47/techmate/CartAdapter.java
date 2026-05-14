@@ -9,8 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DecimalFormat;
+import com.bumptech.glide.Glide;
+
 import java.util.List;
+import java.util.Locale;
+
+import vn.edu.dlu.ctk47.techmate.model.CartItem;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
@@ -34,54 +38,55 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder h, int position) {
         CartItem item = list.get(position);
 
-        h.txtName.setText(item.product.name);
+        if (item != null && item.getProduct() != null) {
+            h.txtName.setText(item.getProduct().getName());
+            h.txtPrice.setText(String.format(Locale.getDefault(), "$%.2f", item.getProduct().getPrice()));
+            h.txtQty.setText(String.valueOf(item.getQuantity()));
 
-        // =====================================
-        // SỬA LỖI $2.899E7 THÀNH 28.990.000 đ
-        // =====================================
-        DecimalFormat formatter = new DecimalFormat("###,###,###");
-        String formattedPrice = formatter.format(item.product.price).replace(",", ".") + " đ";
-        h.txtPrice.setText(formattedPrice);
-
-        h.txtQty.setText(String.valueOf(item.quantity));
-
-        // ➕ Tăng số lượng
-        h.btnPlus.setOnClickListener(v -> {
-            int pos = h.getAdapterPosition();
-            if (pos != RecyclerView.NO_POSITION) {
-                list.get(pos).quantity++;
-                notifyItemChanged(pos);
-                notifyTotal();
+            // Glide load image
+            if (item.getProduct().getImages() != null && !item.getProduct().getImages().isEmpty()) {
+                Glide.with(h.itemView.getContext())
+                        .load(item.getProduct().getImages().get(0))
+                        .placeholder(R.drawable.logo)
+                        .into(h.img);
             }
-        });
 
-        // ➖ Giảm số lượng
-        h.btnMinus.setOnClickListener(v -> {
-            int pos = h.getAdapterPosition();
-            if (pos != RecyclerView.NO_POSITION) {
-                if (list.get(pos).quantity > 1) {
-                    list.get(pos).quantity--;
+            h.btnPlus.setOnClickListener(v -> {
+                int pos = h.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    CartItem currentItem = list.get(pos);
+                    currentItem.setQuantity(currentItem.getQuantity() + 1);
                     notifyItemChanged(pos);
                     notifyTotal();
                 }
-            }
-        });
+            });
 
-        // ❌ Xóa khỏi giỏ
-        h.btnDelete.setOnClickListener(v -> {
-            int pos = h.getAdapterPosition();
-            if (pos != RecyclerView.NO_POSITION) {
-                CartManager.remove(pos);
-                notifyItemRemoved(pos);
-                notifyItemRangeChanged(pos, list.size() - pos); // Cập nhật lại vị trí
-                notifyTotal();
-            }
-        });
+            h.btnMinus.setOnClickListener(v -> {
+                int pos = h.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    CartItem currentItem = list.get(pos);
+                    if (currentItem.getQuantity() > 1) {
+                        currentItem.setQuantity(currentItem.getQuantity() - 1);
+                        notifyItemChanged(pos);
+                        notifyTotal();
+                    }
+                }
+            });
+
+            h.btnDelete.setOnClickListener(v -> {
+                int pos = h.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    CartManager.remove(pos);
+                    notifyItemRemoved(pos);
+                    notifyTotal();
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list != null ? list.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

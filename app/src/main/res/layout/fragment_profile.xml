@@ -44,6 +44,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/layoutProfileHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
@@ -52,6 +53,7 @@
                 android:padding="16dp">
 
                 <ImageView
+                    android:id="@+id/imgProfileAvatar"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/ic_launcher_background"
@@ -83,6 +85,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/btnEditProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -110,6 +113,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/btnMyOrders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -120,6 +124,7 @@
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:background="#E0E0E0" />
 
                 <TextView
+                    android:id="@+id/btnAddressBook"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -189,6 +194,7 @@
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:background="#E0E0E0" />
 
                 <RelativeLayout
+                    android:id="@+id/btnLanguage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
@@ -227,6 +233,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/btnHelpCenter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -237,6 +244,7 @@
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:background="#E0E0E0" />
 
                 <TextView
+                    android:id="@+id/btnPrivacyPolicy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -247,6 +255,7 @@
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:background="#E0E0E0" />
 
                 <RelativeLayout
+                    android:id="@+id/btnAbout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
