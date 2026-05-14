@@ -29,5 +29,9 @@
         android:id="@+id/profileFragment"
         android:name="vn.edu.dlu.ctk47.techmate.HomeFragment"
         android:label="Profile" />
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="vn.edu.dlu.ctk47.techmate.CheckoutFragment"
+        android:label="Checkout" />
 
 </navigation>

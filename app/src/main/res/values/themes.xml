@@ -29,6 +29,14 @@
 
         <item name="colorAccent">#28C8BE</item>
 
+        <!-- 🔥 EDGE-TO-EDGE CONFIG -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+
     </style>
 
 

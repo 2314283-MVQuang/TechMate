@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- MAIN CONTENT -->
     <LinearLayout
         android:background="@color/bg"
         android:orientation="vertical"
@@ -23,9 +22,16 @@
             android:background="@drawable/bg_search"
             android:layout_marginBottom="12dp" />
 
-        <!-- CATEGORY -->
+        <!-- CATEGORY (Main) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <!-- BRANDS (Sub Category) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBrands"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp" />

@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
         // CATEGORY
         RecyclerView rvCat = view.findViewById(R.id.rvCategories);
         rvCat.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvCat.setAdapter(new CategoryAdapter(Arrays.asList("All", "Phones", "Laptops", "Audio")));
+
 
         // PRODUCT
         RecyclerView rvProd = view.findViewById(R.id.rvProducts);
