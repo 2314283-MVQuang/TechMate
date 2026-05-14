@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Đổ dữ liệu mẫu lên Firebase (Chạy 1 lần rồi comment lại)
-        DataSeeder.seedInitialData();
+       // DataSeeder.seedInitialData();
 
         // Thiết lập tự động ẩn Splash khi app load xong
         splash.setKeepOnScreenCondition(() -> false);
